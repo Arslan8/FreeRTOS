@@ -157,7 +157,7 @@ Set mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY to 0 to create a much more
 comprehensive test application.  See the comments at the top of this file, and
 the documentation page on the http://www.FreeRTOS.org web site for more
 information. */
-#define mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY		0
+#define mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY		1
 
 /*-----------------------------------------------------------*/
 
@@ -497,6 +497,7 @@ void TIM2_IRQHandler( void )
 static void prvOptionallyCreateComprehensveTestApplication( void )
 {
 	#if ( mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY == 0 )
+		asd
 	{
 	TimerHandle_t xCheckTimer = NULL;
 

@@ -1,5 +1,8 @@
 /**/
 /* Includes ------------------------------------------------------------------*/
+#include <stm32f4xx_gpio.h>
+#include <stm32f4xx_exti.h>
+#include "stm32f4xx_conf.h"
 #include "iar_stm32f407zg_sk.h"
 
 /** 
@@ -298,11 +301,11 @@ void STM_EVAL_COMInit(COM_TypeDef COM, USART_InitTypeDef* USART_InitStruct)
   GPIO_InitStructure.GPIO_Pin = COM_RX_PIN[COM];
   GPIO_Init(COM_RX_PORT[COM], &GPIO_InitStructure);
 
-  /* USART configuration */
-  USART_Init(COM_USART[COM], USART_InitStruct);
+  /* TODO: USART configuration */
+  //USART_Init(COM_USART[COM], USART_InitStruct);
     
-  /* Enable USART */
-  USART_Cmd(COM_USART[COM], ENABLE);
+  /* TODO: Enable USART */
+  //USART_Cmd(COM_USART[COM], ENABLE);
 }
 
 

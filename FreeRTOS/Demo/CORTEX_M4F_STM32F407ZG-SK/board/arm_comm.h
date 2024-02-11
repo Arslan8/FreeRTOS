@@ -9,11 +9,11 @@
  **    $Revision: 48478 $
  **
  ***************************************************************************/
-#include <intrinsics.h>
+//#include <intrinsics.h>
 
 #ifndef __ARM_COMM_DEF_H
 #define __ARM_COMM_DEF_H
-
+#if 0
 #define MHZ           *1000000l
 #define KHZ           *1000l
 #define HZ            *1l
@@ -168,5 +168,5 @@ Int32U Hold;
                             (((Int32U)__BIN(b2)) << 16UL) + \
                             (((Int32U)__BIN(b3)) <<  8UL) + \
                               (Int32U)__BIN(b4))
-
+#endif 
 #endif // __ARM_COMM_DEF_H
