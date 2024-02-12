@@ -1,7 +1,8 @@
 CC=clang
 BIN := RTOSDemo.axf
-#Possible values KLEE, ETSAN, EC, CRT-C, ECRT-C
-PROJECT ?= EC
+PIECES ?= /home/arslan/projects/Pieces
+#Possible values KLEE, ETSAN, EC, CRTC, ECRTC
+PROJECT ?= CRTC
 #Possible values Flash, StreamBuffer, RECM, QSET, CR, INT
 #Possible Baremetal demos include LwIP, Animation, SD
 DEMO := Flash
@@ -23,13 +24,13 @@ include build_files/SD.mk
 
 
 #Finalize configuration variables based on project/demo
-CFLAGS = ${CFLAGS_${PROJECT}_${DEMO}} 
+CFLAGS = ${CFLAGS_${PROJECT}_${DEMO}} -O2 
 #LDFLAGS = ${LDFLAGS_${PROJECT}_${DEMO}} //Pretty much every configuration uses the same ld flags, can extend in future.
 LDFLAGS = -v -T ./scripts/stm32_flash.ld  -specs=nano.specs --specs=rdimon.specs #-lc -lrdimon
 LDFLAGS += -Xlinker -Map=${BUILD_DIR}/output.map
 LDFLAGS += -L/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp -L/usr/lib/gcc/arm-none-eabi/9.2.1 -L/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib -L./ -v
 SOURCE_FILES = ${SOURCE_FILES_${PROJECT}_${DEMO}}
-INCLUDE_DIRS = ${INCLUDE_DIRS_${PROJECT}_${DEMO}}
+INCLUDE_DIRS = ${INCLUDE_DIRS_${PROJECT}_${DEMO}} -I $(PIECES)/partitioner/monitor/include/
 
 
 
@@ -64,7 +65,8 @@ $(BUILD_DIR)/reg.o : reg.S
 clean:
 	-rm -rf build
 
-bc: $(OBJ_FILES)  
+bc: $(OBJ_FILES) 
+	$(warning Files are $(OBJ_FILES))
 	llvm-link  -v $+ -o $(BUILD_DIR)/$(BIN).bc
 	llvm-dis $(BUILD_DIR)/$(BIN).bc
 #	~/projects/Pieces/partitioner/run.py /home/arslan/projects/LBC/FreeRTOS/FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/pRules.json
@@ -75,7 +77,7 @@ exec: build/RTOSDemo.axf.bc #$(CC) -c -ffunction-sections -fdata-sections $(CFLA
 	size -A -d ./build/RTOSDemo.axf  | tee ./sizeinfo
 
 run:
-	./build_files/qemu-system-arm -M stm32-p103 -semihosting -nographic -kernel ~/projects/LBC/FreeRTOS/FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/build/RTOSDemo.axf -s -S 
+	./build_files/qemu-system-arm -M stm32-p103 -semihosting -nographic -kernel $(BUILD_DIR)/RTOSDemo.axf -s -S 
 
 rop:
 	python3 ./genROPCount.py -b ./build/RTOSDemo.axf -i ./sizeinfo 

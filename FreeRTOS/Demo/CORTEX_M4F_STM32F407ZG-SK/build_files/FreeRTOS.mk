@@ -24,7 +24,8 @@ FREERTOS_FILES += $(KERNEL)/portable/MemMang/heap_1.c
 
 #Add FreeRTOS platform/arch files 
 FREERTOS_FILES += ./Libraries/STM32F4xx_StdPeriph_Driver/src/misc.c
-FREERTOS_FILES += ./startup/system_stm32f4xx.c
+#FREERTOS_FILES += ./startup/system_stm32f4xx.c
+FREERTOS_FILES += ./startup/initialize_platform.c
 FREERTOS_FILES += ./ParTest.c
 FREERTOS_FILES += ./Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c
 FREERTOS_FILES += Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_exti.c
@@ -109,6 +110,8 @@ CFLAGS_KLEE_${DEMO} = $(FREERTOS_KLEE_CFLAGS)
 
 #${SOURCE_FILES_${PROJECT}_${DEMO}}
 SOURCE_FILES_EC_${DEMO} = $(FREERTOS_FILES)  $(DEMO_FILES) $(EC_FILES)
+
+SOURCE_FILES_CRTC_${DEMO} = $(FREERTOS_FILES)  $(DEMO_FILES) $(CRTC_FILES)
 
 SOURCE_FILES_KLEE_${DEMO}= $(DEMO_FILES) $(FREERTOS_KLEE_FILES)
 

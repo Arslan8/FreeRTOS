@@ -1183,7 +1183,7 @@ typedef struct
 #define GPIOH               ((GPIO_TypeDef *) GPIOH_BASE)
 #define GPIOI               ((GPIO_TypeDef *) GPIOI_BASE)
 #define CRC                 ((CRC_TypeDef *) CRC_BASE)
-#define RCC                 ((RCC_TypeDef *) RCC_BASE)
+//#define RCC                 ((RCC_TypeDef *) RCC_BASE)
 #define FLASH               ((FLASH_TypeDef *) FLASH_R_BASE)
 #define DMA1                ((DMA_TypeDef *) DMA1_BASE)
 #define DMA1_Stream0        ((DMA_Stream_TypeDef *) DMA1_Stream0_BASE)
