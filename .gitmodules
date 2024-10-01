@@ -1,6 +1,20 @@
 [submodule "FreeRTOS/Source"]
 	path = FreeRTOS/Source
 	url = https://github.com/Arslan8/FreeRTOS-Kernel.git
+
+[submodule "FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/CMSIS-5"]
+	path = FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/CMSIS-5
+	url = https://github.com/ARM-software/CMSIS_5.git
+
+[submodule "FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/CMSIS-5/Device/cmsis_device_f7"]
+	path = FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/CMSIS_5/Device/cmsis_device_f4
+	url = https://github.com/STMicroelectronics/cmsis_device_f4
+
+[submodule "FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/CMSIS_5/Device/cmsis_device_f7"]
+        path = FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/CMSIS_5/Device/cmsis_device_f7
+        url = https://github.com/STMicroelectronics/cmsis_device_f7
+
+
 [submodule "FreeRTOS/Test/CMock/CMock"]
 	path = FreeRTOS/Test/CMock/CMock
 	url = https://github.com/ThrowTheSwitch/CMock.git
