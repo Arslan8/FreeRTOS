@@ -1,12 +1,18 @@
 CC=clang
 BIN := RTOSDemo.axf
-PIECES ?= /home/arslan/projects/Pieces
+CMSIS_PATH ?= ./CMSIS-5/
+PIECES ?= /data/Pieces/
 #Possible values KLEE, ETSAN, EC, CRTC, ECRTC
 PROJECT ?= CRTC
 #Possible values Flash, StreamBuffer, RECM, QSET, CR, INT
 #Possible Baremetal demos include LwIP, Animation, SD
 DEMO := Flash
 BUILD_DIR := build
+
+GCC_INSTALL_INCLUDE ?= /data/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/./arm-none-eabi/include/
+CHECKED_C_INSTALL_INCLUDE ?=/data/checkedc/include
+GCC_INSTALL_LIB ?= /data/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/./arm-none-eabi/lib/
+
 
 
 #Include project level configurations
@@ -28,9 +34,14 @@ CFLAGS = ${CFLAGS_${PROJECT}_${DEMO}} -O2
 #LDFLAGS = ${LDFLAGS_${PROJECT}_${DEMO}} //Pretty much every configuration uses the same ld flags, can extend in future.
 LDFLAGS = -v -T ./scripts/stm32_flash.ld  -specs=nano.specs --specs=rdimon.specs #-lc -lrdimon
 LDFLAGS += -Xlinker -Map=${BUILD_DIR}/output.map
-LDFLAGS += -L/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp -L/usr/lib/gcc/arm-none-eabi/9.2.1 -L/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib -L./ -v
+
+LDFLAGS += -L$(GCC_INSTALL_LIB) -L./ -v
 SOURCE_FILES = ${SOURCE_FILES_${PROJECT}_${DEMO}}
-INCLUDE_DIRS = ${INCLUDE_DIRS_${PROJECT}_${DEMO}} -I $(PIECES)/partitioner/monitor/include/
+INCLUDE_DIRS = ${INCLUDE_DIRS_${PROJECT}_${DEMO}} -I $(PIECES)/partitioner/monitor/include/ -I $(GCC_INSTALL_INCLUDE) -I $(CHECKED_C_INSTALL_INCLUDE)
+#Device Path
+INCLUDE_DIRS += -I$(CMSIS_PATH)/Device/cmsis_device_f4/Include/
+INCLUDE_DIRS += -I$(CMSIS_PATH)/CMSIS/Core/Include/
+
 
 
 

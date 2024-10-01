@@ -25,7 +25,7 @@ FREERTOS_FILES += $(KERNEL)/portable/MemMang/heap_1.c
 #Add FreeRTOS platform/arch files 
 FREERTOS_FILES += ./Libraries/STM32F4xx_StdPeriph_Driver/src/misc.c
 #FREERTOS_FILES += ./startup/system_stm32f4xx.c
-FREERTOS_FILES += ./startup/initialize_platform.c
+#FREERTOS_FILES += ./startup/initialize_platform.c
 FREERTOS_FILES += ./ParTest.c
 FREERTOS_FILES += ./Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c
 FREERTOS_FILES += Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_exti.c
@@ -44,8 +44,6 @@ INCLUDE_DIR += -I /usr/lib/gcc/arm-none-eabi/9.2.1/include -I  /usr/lib/gcc/arm-
 FREERTOS_INCLUDE_DIRS += -I$(KERNEL_DIR)/include
 FREERTOS_INCLUDE_DIRS += -I$(INCLUDE_PORT) -I$(INCLUDE_COMMON)
 FREERTOS_INCLUDE_DIRS += -I./
-FREERTOS_INCLUDE_DIRS += -I ./Libraries/CMSIS/Device/ST/STM32F4xx/Include/
-FREERTOS_INCLUDE_DIRS += -I ./Libraries/CMSIS/Include/
 FREERTOS_INCLUDE_DIRS += -I./Libraries/STM32F4xx_StdPeriph_Driver/inc/
 FREERTOS_INCLUDE_DIRS += -I./board/ -I /usr/lib/gcc/arm-none-eabi/9.2.1/include -I  /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/include/ -I /home/arslan/projects/LBC/checkedC-12/src/package/lib/clang/12.0.0/include/
 #FREERTOS_INCLUDE_DIRS += -I /home/arslan/projects/LBC/stm32f429/00-STM32F429_LIBRARIES/ -I ./sdcard_app/ -I /home/arslan/projects/LBC/stm32f429/00-STM32F429_LIBRARIES/fatfs/ -I /home/arslan/projects/LBC/stm32f429/00-STM32F429_LIBRARIES/fatfs/drivers/
@@ -85,7 +83,7 @@ endif
 FREERTOS_KLEE_FILES= ./klee_env.c
 
 #Configure CFLAGS based on the required project/demo
-FREERTOS_EXE_CFLAGS=-flto=thin --target=arm-none-eabi -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -g -DSTM32F4xx -DFREERTOSCONFIG#Currently only STM32
+FREERTOS_EXE_CFLAGS=-flto=thin --target=arm-none-eabi -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -g -DSTM32F4xx -DSTM32F405xx -DFREERTOSCONFIG#Currently only STM32
 
 
 FREERTOS_KLEE_CFLAGS= -flto=thin -g -DKLEE
