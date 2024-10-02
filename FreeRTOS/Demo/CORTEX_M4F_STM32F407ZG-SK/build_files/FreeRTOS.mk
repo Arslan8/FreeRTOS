@@ -24,7 +24,7 @@ FREERTOS_FILES += $(KERNEL)/portable/MemMang/heap_1.c
 
 #Add FreeRTOS platform/arch files 
 FREERTOS_FILES += ./Libraries/STM32F4xx_StdPeriph_Driver/src/misc.c
-#FREERTOS_FILES += ./startup/system_stm32f4xx.c
+FREERTOS_FILES += ./startup/system_stm32f4xx.c
 #FREERTOS_FILES += ./startup/initialize_platform.c
 FREERTOS_FILES += ./ParTest.c
 FREERTOS_FILES += ./Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c

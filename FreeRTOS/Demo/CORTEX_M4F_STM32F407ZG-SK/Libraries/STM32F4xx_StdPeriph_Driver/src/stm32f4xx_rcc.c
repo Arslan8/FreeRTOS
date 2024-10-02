@@ -165,7 +165,7 @@ static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6
 #define VECT_TAB_OFFSET  0x00 /*!< Vector Table base offset field.
                                    This value must be a multiple of 0x200. */
 
-uint32_t SystemCoreClock = 150000000;
+extern uint32_t SystemCoreClock;
 
 //__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
 /* Private function prototypes -----------------------------------------------*/
