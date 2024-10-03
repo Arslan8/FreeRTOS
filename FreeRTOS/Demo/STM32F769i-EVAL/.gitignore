@@ -1,1 +1,8 @@
 ./build/
+startup.s
+build/
+cmsis_device_f7/
+rtmk.map
+sizeinfo
+.cflags
+CMSIS_5/
