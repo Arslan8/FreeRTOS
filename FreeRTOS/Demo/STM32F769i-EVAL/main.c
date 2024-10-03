@@ -232,16 +232,22 @@ interrupt. */
 volatile unsigned long ulButtonPressCounts = 0UL;
 
 /*-----------------------------------------------------------*/
+#include <stm32f769i_eval.h>
 void vParTestInitialise( void ) {
 	//TODO
+	for (int i =0; i< (LED4 + 1); i++) {
+		BSP_LED_Init(i);
+	}
 }
 void vParTestToggleLED( unsigned long ulLED ) {
 	//TODO add code for toggling LED
+		for (int i =0; i< (LED4 + 1); i++) {
+	        BSP_LED_Toggle(i);
+	    }
 }
 int main(void)
 {
 
-	int *p = malloc(12);
 	/* Configure the hardware ready to run the test. */
 	prvSetupHardware();
 

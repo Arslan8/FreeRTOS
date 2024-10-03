@@ -1,3 +1,4 @@
+stm32f769i-eval-bsp/
 ./build/
 startup.s
 build/

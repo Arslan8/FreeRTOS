@@ -13,6 +13,8 @@ GCC_INSTALL ?= /data/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/
 GCC_INSTALL_INCLUDE = $(GCC_INSTALL)arm-none-eabi/include/
 CHECKED_C_INSTALL_INCLUDE ?=/data/checkedc/include
 GCC_INSTALL_LIB ?= $(GCC_INSTALL)arm-none-eabi/lib/thumb/v7-m/nofp/
+BSP_INSTALL ?= ./stm32f769i-eval-bsp/
+HAL_INSTALL ?= ./stm32f7xx_hal_driver/
 
 
 
@@ -43,8 +45,22 @@ INCLUDE_DIRS = ${INCLUDE_DIRS_${PROJECT}_${DEMO}} -I $(PIECES)/partitioner/monit
 #Device Path
 INCLUDE_DIRS += -I$(CMSIS_PATH)/Device/cmsis_device_f7/Include/
 INCLUDE_DIRS += -I$(CMSIS_PATH)/CMSIS/Core/Include/
+INCLUDE_DIRS += -I$(BSP_INSTALL)/
+INCLUDE_DIRS += -I$(HAL_INSTALL)/Inc/
 
 SOURCE_FILES += $(CMSIS_PATH)Device/cmsis_device_f7/Source/Templates/system_stm32f7xx.c 
+
+#Drivers for stm32
+SOURCE_FILES += $(BSP_INSTALL)/stm32f769i_eval.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_gpio.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_cortex.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_uart.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_adc.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_dma.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_rcc.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_i2c.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_adc_ex.c
 
 
 
