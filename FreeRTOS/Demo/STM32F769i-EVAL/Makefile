@@ -1,6 +1,6 @@
 CC=clang
 BIN := RTOSDemo.axf
-CMSIS_PATH ?= ./CMSIS-5/
+CMSIS_PATH ?= ./CMSIS_5/
 PIECES ?= /data/Pieces/
 #Possible values KLEE, ETSAN, EC, CRTC, ECRTC
 PROJECT ?= CRTC
