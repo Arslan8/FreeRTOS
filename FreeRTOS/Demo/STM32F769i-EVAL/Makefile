@@ -61,6 +61,8 @@ SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_dma.c
 SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_rcc.c
 SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_i2c.c
 SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_adc_ex.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_pwr_ex.c
+SOURCE_FILES += $(HAL_INSTALL)/Src/stm32f7xx_hal_rcc_ex.c
 
 
 

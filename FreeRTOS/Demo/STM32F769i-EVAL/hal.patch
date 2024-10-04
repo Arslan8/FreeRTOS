@@ -1,0 +1,66 @@
+diff --git a/Src/stm32f7xx_hal_rcc.c b/Src/stm32f7xx_hal_rcc.c
+index 1a6de8d..f8f4a9a 100644
+--- a/Src/stm32f7xx_hal_rcc.c
++++ b/Src/stm32f7xx_hal_rcc.c
+@@ -998,6 +998,31 @@ void HAL_RCC_DisableCSS(void)
+   *
+   * @retval SYSCLK frequency
+   */
++int divide(uint64_t dividend, uint64_t divisor) {
++    uint64_t a = dividend;
++    uint64_t b = divisor;
++    int quotient = 0;
++
++	//Large number optimization
++	while (a >= (b * 100000000)) {
++			quotient += 100000000;
++			a = a - (100000000 * b);
++	}
++
++	while (a >= (b * 1000000)) {
++            quotient += 1000000;
++            a = a - (1000000 * b);
++    }
++					
++
++    while (a >= b) {
++        a -= b;
++        quotient++;
++    }
++
++    return quotient;
++}
++
+ uint32_t HAL_RCC_GetSysClockFreq(void)
+ {
+   uint32_t pllm = 0, pllvco = 0, pllp = 0;
+@@ -1024,7 +1049,7 @@ uint32_t HAL_RCC_GetSysClockFreq(void)
+       if (__HAL_RCC_GET_PLL_OSCSOURCE() != RCC_PLLCFGR_PLLSRC_HSI)
+       {
+         /* HSE used as PLL clock source */
+-        pllvco = (uint32_t)((((uint64_t) HSE_VALUE * ((uint64_t)((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> RCC_PLLCFGR_PLLN_Pos)))) / (uint64_t)pllm);
++        pllvco = divide( (((uint64_t) HSE_VALUE * ((uint64_t)((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> RCC_PLLCFGR_PLLN_Pos)))), (uint64_t) pllm);
+       }
+       else
+       {
+@@ -1033,7 +1058,7 @@ uint32_t HAL_RCC_GetSysClockFreq(void)
+       }
+       pllp = ((((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >> RCC_PLLCFGR_PLLP_Pos) + 1) * 2);
+ 
+-      sysclockfreq = pllvco / pllp;
++      sysclockfreq = divide((uint64_t)pllvco , (uint64_t) pllp);
+       break;
+     }
+     default:
+diff --git a/Src/stm32f7xx_hal_rcc_ex.c b/Src/stm32f7xx_hal_rcc_ex.c
+index b09fb43..c1be329 100644
+--- a/Src/stm32f7xx_hal_rcc_ex.c
++++ b/Src/stm32f7xx_hal_rcc_ex.c
+@@ -292,6 +292,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
+ 
+     /* Configure the USART1 clock source */
+     __HAL_RCC_USART1_CONFIG(PeriphClkInit->Usart1ClockSelection);
++	int temp = __HAL_RCC_GET_USART1_SOURCE();
+   }
+ 
+   /*-------------------------------------- USART2 Configuration -----------------------------------*/
