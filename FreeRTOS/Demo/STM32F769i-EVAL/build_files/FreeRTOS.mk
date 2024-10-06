@@ -73,7 +73,7 @@ endif
 FREERTOS_KLEE_FILES= ./klee_env.c
 
 #Configure CFLAGS based on the required project/demo
-FREERTOS_EXE_CFLAGS=-flto=thin --target=arm-none-eabi -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -g -DFREERTOSCONFIG#Currently only STM32
+FREERTOS_EXE_CFLAGS=-flto=thin --target=arm-none-eabi -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g -DFREERTOSCONFIG#Currently only STM32
 
 
 FREERTOS_KLEE_CFLAGS= -flto=thin -g -DKLEE

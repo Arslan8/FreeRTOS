@@ -1,4 +1,5 @@
 stm32f769i-eval-bsp/
+stm32f7xx_hal_driver/
 ./build/
 startup.s
 build/

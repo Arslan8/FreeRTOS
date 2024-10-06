@@ -369,7 +369,7 @@ void vParTestToggleLED( unsigned long ulLED ) {
      char * string = "Hello World!\n";
    	 int size = strlen(string);
 	 HAL_UART_Transmit(&huart, string, size, HAL_MAX_DELAY);
-     HAL_UART_Receive(&huart, buffer, 256, HAL_MAX_DELAY);
+     //HAL_UART_Receive(&huart, buffer, 256, HAL_MAX_DELAY);
 
 	
 	 for (int i =0; i< (LED4 + 1); i++) {
@@ -531,6 +531,7 @@ static void prvSetupHardware( void )
 
 	/* Setup the LED outputs. */
 	vParTestInitialise();
+
 }
 /*-----------------------------------------------------------*/
 
