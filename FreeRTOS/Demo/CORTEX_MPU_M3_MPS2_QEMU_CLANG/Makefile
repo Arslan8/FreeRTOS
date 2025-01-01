@@ -15,7 +15,7 @@ FREERTOS_DIR          :=    $(abspath $(FREERTOS_DIR_REL))
 KERNEL_DIR            :=    $(FREERTOS_DIR)/Source
 
 # Startup sources
-SOURCE_FILES          +=    init/startup.c  syscall.c main.c
+SOURCE_FILES          +=    init/startup.c  syscall.c main.c rtmk.c
 
 # platform portable source file
 SOURCE_FILES          +=    $(KERNEL_DIR)/portable/clang/ARM_CM3_MPU/port.c

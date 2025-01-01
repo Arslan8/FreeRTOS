@@ -23,13 +23,15 @@
  * https://github.com/FreeRTOS
  *
  */
-
+#include "FreeRTOS.h"
+#include "FreeRTOSConfig.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "CMSIS/CMSDK_CM3.h"
 #include "CMSIS/core_cm3.h"
+#include "hack.h"
 
 extern void vPortSVCHandler( void );
 extern void xPortPendSVHandler( void );
@@ -38,8 +40,11 @@ extern void uart_init();
 extern int main();
 
 extern uint32_t _estack, _sidata, _sdata, _edata, _sbss, _ebss;
+
+extern uint32_t _sosection0data, _eosection0data, _sosection0datal;
 void reset_body(void);
 /* Prevent optimization so gcc does not replace code with memcpy */
+PRIVILEGED_FUNCTION
 __attribute__( ( optnone) )
 __attribute__((target("thumb"))) 
 void Reset_Handler(void)
@@ -56,6 +61,12 @@ void Reset_Handler(void)
         *dest++ = 0;
     }
 
+	/* copy .data section from flash to RAM */
+    for( uint32_t * src = &_sosection0datal, * dest = &_sosection0data; dest < &_eosection0data; )
+    {
+        *dest++ = *src++;
+    }
+
 	__asm volatile (""
 	"ldr r0, =_estack  \n"
     "mov sp, r0        \n"
@@ -65,6 +76,7 @@ void Reset_Handler(void)
     _start();
 }
 
+PRIVILEGED_FUNCTION
 void prvGetRegistersFromStack( uint32_t * pulFaultStackAddress )
 {
 /* These are volatile to try and prevent the compiler/linker optimising them
@@ -105,6 +117,7 @@ void prvGetRegistersFromStack( uint32_t * pulFaultStackAddress )
     ( void ) pc;
     ( void ) psr;
 }
+PRIVILEGED_FUNCTION
 static void Default_Handler( void ) __attribute__( ( naked ) );
 void Default_Handler( void )
 {
@@ -121,6 +134,7 @@ void Default_Handler( void )
         "NVIC_INT_CTRL_CONST: .word 0xe000ed04\n"
     );
 }
+PRIVILEGED_FUNCTION
 static void HardFault_Handler( void ) __attribute__( ( naked ) );
 void HardFault_Handler( void )
 {
@@ -151,6 +165,7 @@ void MemMang_Handler( void )
         " handler3_address_const: .word vHandleMemoryFault                    \n"
     );
 }
+PRIVILEGED_FUNCTION
 void BusFault_Handler( void )
 {
     __asm volatile
@@ -164,7 +179,7 @@ void BusFault_Handler( void )
         " handler4_address_const: .word vHandleMemoryFault                    \n"
     );
 }
-
+PRIVILEGED_FUNCTION
 void UsageFault_Handler( void )
 {
     __asm volatile
@@ -179,6 +194,7 @@ void UsageFault_Handler( void )
     );
 }
 
+PRIVILEGED_FUNCTION
 void Debug_Handler( void )
 {
     __asm volatile
@@ -191,11 +207,6 @@ void Debug_Handler( void )
         " bx r1                                                              \n"
         " handler6_address_const: .word vHandleMemoryFault                    \n"
     );
-}
-
-void Reset_Handler2(void) {
-
-		__asm volatile ("b Reset_Handler");
 }
 
 const uint32_t * const isr_vector[] __attribute__( ( section( ".isr_vector" ) ) ) =
@@ -232,13 +243,14 @@ const uint32_t * const isr_vector[] __attribute__( ( section( ".isr_vector" ) ) 
     0,                                   /* Ethernet   13                 */
 };
 
+PRIVILEGED_FUNCTION
 void _start( void )
 {
     uart_init();
     main( 0, 0 );
     exit( 0 );
 }
-
+PRIVILEGED_FUNCTION
 __attribute__( ( naked ) )
 void exit( __attribute__( ( unused ) ) int status )
 {

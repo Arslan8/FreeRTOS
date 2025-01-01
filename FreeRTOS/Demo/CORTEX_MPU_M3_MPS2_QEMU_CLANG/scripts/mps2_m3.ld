@@ -180,6 +180,7 @@ SECTIONS
         _edata = .;
     } > RAM AT > FLASH
 
+
   .csection0 : 
   {
 _scsection0 = .;
@@ -367,7 +368,19 @@ _ecsection19 = .;
         . = ALIGN(8);
        } >RAM
 
-  .osection0 : AT ( _sidata  + compartLMA)
+	compartLMA = .;
+
+	.osection0data : /* AT ( _sidata ) */
+    {   
+        . = ALIGN(4);     
+		_sosection0data = .;
+        *(.osection0data)           /* .data sections. */
+        . = ALIGN(4);
+        _eosection0data = .;
+    } > RAM AT > FLASH
+
+	_sosection0datal = LOADADDR(.osection0data);
+	.osection0 : AT ( _sidata  + compartLMA)
   {
 	  . = ALIGN(4);
 	  _sosection0 = .;

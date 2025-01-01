@@ -34,7 +34,8 @@
 #include "mpu_demo.h"
 
 #include <stdio.h>
-
+#include "hack.h"
+PRIVILEGED_FUNCTION
 void app_main( void )
 {
     /* Start the MPU demo. */
@@ -51,7 +52,7 @@ void app_main( void )
     }
 }
 /*-----------------------------------------------------------*/
-
+PRIVILEGED_FUNCTION
 void vApplicationStackOverflowHook( TaskHandle_t pxTask,
                                     char * pcTaskName )
 {
@@ -67,6 +68,7 @@ void vApplicationStackOverflowHook( TaskHandle_t pxTask,
     }
 }
 /*-----------------------------------------------------------*/
+PRIVILEGED_FUNCTION
 void vApplicationMallocFailedHook( void )
 {
     /* If configUSE_MALLOC_FAILED_HOOK is set to 1 then this function will
@@ -83,6 +85,7 @@ void vApplicationMallocFailedHook( void )
 /* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide an
  * implementation of vApplicationGetIdleTaskMemory() to provide the memory that is
  * used by the Idle task. */
+PRIVILEGED_FUNCTION
 void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer,
                                     StackType_t ** ppxIdleTaskStackBuffer,
                                     uint32_t * pulIdleTaskStackSize )
@@ -110,6 +113,7 @@ void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer,
 /* configUSE_STATIC_ALLOCATION and configUSE_TIMERS are both set to 1, so the
  * application must provide an implementation of vApplicationGetTimerTaskMemory()
  * to provide the memory that is used by the Timer service task. */
+PRIVILEGED_FUNCTION
 void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
                                      StackType_t ** ppxTimerTaskStackBuffer,
                                      uint32_t * pulTimerTaskStackSize )

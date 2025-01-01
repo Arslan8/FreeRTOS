@@ -28,8 +28,10 @@
 #include "FreeRTOS.h"
 #include "FreeRTOSConfig.h"
 #include "task.h"
-
+#include "monitor.h"
 #include <stdint.h>
+
+#include "hack.h"
 
 /** ARMv7 MPU Details:
  *
@@ -48,6 +50,7 @@
 /**
  * @brief Memory region shared between two tasks.
  */
+SHARED_DATA
 static uint8_t ucSharedMemory[ SHARED_MEMORY_SIZE ] __attribute__( ( aligned( SHARED_MEMORY_SIZE ) ) );
 
 /**
@@ -197,7 +200,7 @@ static void prvRWAccessTask( void * pvParameters )
 }
 
 /*-----------------------------------------------------------*/
-
+PRIVILEGED_FUNCTION
 void vStartMPUDemo( void )
 {
 /**
@@ -252,7 +255,7 @@ void vStartMPUDemo( void )
     xTaskCreateRestricted( &( xRWAccessTaskParameters ), NULL );
 }
 /*-----------------------------------------------------------*/
-
+PRIVILEGED_FUNCTION
 portDONT_DISCARD void vHandleMemoryFault( uint32_t * pulFaultStackAddress )
 {
     uint32_t ulPC;
