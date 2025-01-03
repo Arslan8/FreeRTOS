@@ -17,6 +17,7 @@
 #define PINNED(PID)	__attribute((section("pinned:" #PID )))
 #define CLONE		__attribute((section("clone")))
 #define SECRET		__attribute((section("secret")))
+#include "hack.h"
 
 typedef struct {
         int start;	//Start of code section
@@ -30,6 +31,16 @@ typedef struct {
 		int devend;	//End of dev region
 } SEC_INFO;
 
+extern unsigned long section_loads[];
+extern unsigned long end_loads[];
+extern int total_secs;
+#define LINKER_SYM(i) \
+		extern unsigned long * _scsection##i;\
+		extern unsigned long * _szcsection##i;\
+		extern unsigned long * _sosection##i##data;\
+		extern unsigned long * _szosection##i;\
+		extern unsigned long * _sosection##i##datal;\
+		extern unsigned long * _eosection##i##data;
 
 typedef struct __attribute__((packed)) ContextStateFrame {
   uint32_t r0;
@@ -62,7 +73,7 @@ typedef struct __attribute__((packed)) ContextStateFrame {
 #define TRCENA          (1<<24)
 #define MON_PEND        (1<<17)
 
-RTMK_DATA
+PRIVILEGED_DATA
 extern  SEC_INFO  comp_info[];
 extern int code_base;
 extern int code_size;

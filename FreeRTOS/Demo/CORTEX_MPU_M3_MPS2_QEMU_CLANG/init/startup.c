@@ -32,6 +32,7 @@
 #include "CMSIS/CMSDK_CM3.h"
 #include "CMSIS/core_cm3.h"
 #include "hack.h"
+#include "monitor.h"
 
 extern void vPortSVCHandler( void );
 extern void xPortPendSVHandler( void );
@@ -61,11 +62,14 @@ void Reset_Handler(void)
         *dest++ = 0;
     }
 
-	/* copy .data section from flash to RAM */
-    for( uint32_t * src = &_sosection0datal, * dest = &_sosection0data; dest < &_eosection0data; )
-    {
-        *dest++ = *src++;
-    }
+
+	for (int i =0; i< total_secs; i++){
+		/* copy .data section from flash to RAM */
+	    for( uint32_t * src = (uint32_t *)section_loads[i], * dest = (uint32_t *)comp_info[i].dstart; dest < (uint32_t*)end_loads[i]; )
+	    {
+	        *dest++ = *src++;
+	    }
+	}
 
 	__asm volatile (""
 	"ldr r0, =_estack  \n"

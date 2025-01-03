@@ -164,7 +164,6 @@ SECTIONS
         /* Note that dot (.) actually refers to the byte offset from the start
             * * of the current section (.privileged_data in this case). As a result,
             * * setting dot (.) to a value sets the size of the section. */
-        . = __privileged_data_region_size__;
     } >RAM AT> FLASH
 
     .data : /* AT ( _sidata ) */
@@ -220,6 +219,8 @@ SECTIONS
     * size of stack_dummy section */
    __StackTop = ORIGIN(RAM) + LENGTH(RAM);
    __StackLimit = __StackTop - _Min_Stack_Size;
+   __FlashEnd = ORIGIN(FLASH) + LENGTH(FLASH);
+   __End_RAM = ORIGIN(RAM) + LENGTH(RAM);
    PROVIDE(__stack = __StackTop);
 
   /* Check if data + heap + stack exceeds RAM limit */
