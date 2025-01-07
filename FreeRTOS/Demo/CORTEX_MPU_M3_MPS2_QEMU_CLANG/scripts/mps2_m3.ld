@@ -200,16 +200,19 @@ SECTIONS
         . = ALIGN(8);
        } >RAM
 
-  .osection0data : /* AT ( _sidata ) */
+compartLMA = LOADADDR(.data) + SIZEOF(.data);
+  .osection0data :  AT (compartLMA) 
   { . = ALIGN(4); 
 		_sosection0data = .; 
   *(.osection0data)		   /* .data sections. */
   . = ALIGN(4); 
   _eosection0data = .;
-} > RAM AT > FLASH
+} > RAM 
 test_sym = LOADADDR(.osection0data);
 . = _eosection0data + ALIGN(4);
 _sosection0datal = LOADADDR(.osection0data);
+
+compartLMA = compartLMA + SIZEOF(.osection0data);
   .osection0 : 
   {
 	  . = ALIGN(4);
@@ -219,14 +222,16 @@ _sosection0datal = LOADADDR(.osection0data);
 	  _eosection0 = .;
 _szosection0 = _eosection0 - _sosection0data;  }  > RAM 
 compartLMA = compartLMA + SIZEOF(.osection0); 
-  .osection1data : /* AT ( _sidata ) */
+  .osection1data :  AT (compartLMA)
   { . = ALIGN(4); 
 		_sosection1data = .; 
   *(.osection1data)		   /* .data sections. */
   . = ALIGN(4); 
   _eosection1data = .;
-} > RAM AT > FLASH
+} > RAM
 _sosection1datal = LOADADDR(.osection1data);
+
+compartLMA = compartLMA + SIZEOF(.osection1data);
   .osection1 : 
   {
 	  . = ALIGN(4);
@@ -235,17 +240,17 @@ _sosection1datal = LOADADDR(.osection1data);
 	  . = ALIGN(4);
 	  _eosection1 = .;
 _szosection1 = _eosection1 - _sosection1data;  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection1); 
-  .osection2data : /* AT ( _sidata ) */
+  .osection2data :  AT ( compartLMA ) 
   { . = ALIGN(4); 
 		_sosection2data = .; 
   *(.osection2data)		   /* .data sections. */
   . = ALIGN(4); 
   _eosection2data = .;
-} > RAM AT > FLASH
+} > RAM 
 _sosection2datal = LOADADDR(.osection2data);
 . = _eosection2data + ALIGN(4);
-compartLMA  = .;
+
+compartLMA = compartLMA + SIZEOF(.osection2data);
   .osection2 : 
   {
 	  . = ALIGN(4);
@@ -257,11 +262,11 @@ _szosection2 = _eosection2 - _sosection2data;  }  > RAM
 laddr = LOADADDR(.osection2data);
 lsize = (_eosection2data - _sosection2data);
 
+lsize = SIZEOF(.osection2data); 
 cLMA = LOADADDR(.osection0data) + SIZEOF(.osection0data) + 0x00;
 cLMA = ALIGN(cLMA, 4);
   .csection0 cLMA : AT(cLMA)  
   {
-		  . = cLMA;
 _scsection0 = .;
 	  . = ALIGN(4);
 	  *(.csection0)
