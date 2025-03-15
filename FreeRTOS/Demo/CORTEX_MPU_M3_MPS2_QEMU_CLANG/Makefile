@@ -6,9 +6,10 @@ BUILD_DIR             :=    build
 DEBUG += 1
 
 #Clang stuff
-GCC_INSTALL ?= /usr/lib/
+GCC_INSTALL ?= /opt/gcc-arm-none-eabi-10-2020-q4-major/
 GCC_INSTALL_INCLUDE = $(GCC_INSTALL)arm-none-eabi/include/
 GCC_INSTALL_LIB ?= $(GCC_INSTALL)arm-none-eabi/lib/thumb/v7-m/nofp/
+LIBGCC_PATH ?= $(GCC_INSTALL)lib/gcc/arm-none-eabi/10.2.1/thumb/v7-m/nofp/
 
 FREERTOS_DIR_REL      :=    ../../../FreeRTOS
 FREERTOS_DIR          :=    $(abspath $(FREERTOS_DIR_REL))
@@ -109,7 +110,7 @@ $(BUILD_DIR)/reset.o : reset.s
 
 exec:
 	llc-12 -filetype=obj build/RTOSDemo.axf.bc
-	$(CC) -fuse-ld=/usr/bin/ld.lld-12 --target=arm-none-eabi -mthumb -mcpu=cortex-m3 $(LDFLAGS) -lc -L/opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/ -lgcc  -mfloat-abi=soft -Xlinker -Map=build/rtmk.map build/RTOSDemo.axf.bc -o ./build/RTOSDemo.axf
+	$(CC) -fuse-ld=/usr/bin/ld.lld-12 --target=arm-none-eabi -mthumb -mcpu=cortex-m3 $(LDFLAGS) -lc -L$(LIBGCC_PATH) -lgcc  -mfloat-abi=soft -Xlinker -Map=build/rtmk.map build/RTOSDemo.axf.bc -o ./build/RTOSDemo.axf
 	size -A -d ./build/RTOSDemo.axf  | tee ./build/sizeinfo
 
 rund:
